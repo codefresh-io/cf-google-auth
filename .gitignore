@@ -6,6 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 secret*
 
+start-dev.sh
+
 # Runtime data
 pids
 *.pid
