@@ -19,7 +19,7 @@ steps:
     image: codefresh/cf-deploy-kubernetes:latest
     working-directory: ${{main_clone}}
     commands:
-      - /cf-deploy-kubernetes deployment.yml.tmpl
+      - /cf-deploy-kubernetes deployment.yml
     environment:
       - KUBERNETES_USER=${{KUBERNETES_USER}}
       - KUBERNETES_PASSWORD=${{KUBERNETES_PASSWORD}}
