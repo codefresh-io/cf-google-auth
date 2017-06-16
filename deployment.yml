@@ -1,0 +1,23 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cf-google-auth
+  labels:
+    service: cf-google-auth
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        forceRedeployUniqId: "{{CF_REVISION}}"
+      labels:
+        service: cf-google-auth
+    spec:
+      containers:
+      - image: containers101/demochat:{{CF_BRANCH}}
+        name: cf-google-auth
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5555
+          protocol: TCP
