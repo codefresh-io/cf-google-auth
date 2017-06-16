@@ -1,0 +1,27 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cf-google-auth
+  labels:
+    service: cf-google-auth
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        forceRedeployUniqId: "{{CF_REVISION}}"
+      labels:
+        service: cf-google-auth
+    spec:
+      containers:
+      - image: codefresh/cf-google-auth:{{CF_BRANCH}}
+        name: cf-google-auth
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5555
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /api/ping
+            port: 5555
