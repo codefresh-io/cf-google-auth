@@ -24,7 +24,7 @@ steps:
       - KUBERNETES_USER=${{KUBERNETES_USER}}
       - KUBERNETES_PASSWORD=${{KUBERNETES_PASSWORD}}
       - KUBERNETES_SERVER=${{KUBERNETES_SERVER}}
-#    when:
-#      condition:
-#        all:
-#          only_master: '${{CF_BRANCH}} == "master"'
+    when:
+      condition:
+        all:
+          only_master: '${{CF_BRANCH}} == "master"'
