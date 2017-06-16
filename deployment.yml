@@ -15,7 +15,7 @@ spec:
         service: cf-google-auth
     spec:
       containers:
-      - image: containers101/demochat:{{CF_BRANCH}}
+      - image: codefresh/cf-google-auth:{{CF_BRANCH}}
         name: cf-google-auth
         imagePullPolicy: Always
         ports:
