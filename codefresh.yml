@@ -1,0 +1,26 @@
+version: '1.0'
+
+steps:
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: codefresh/cf-google-auth
+    working_directory: ./
+    dockerfile: Dockerfile
+
+  PushingToDockerRegistry:
+    title: Pushing to Docker Registry
+    type: push
+    candidate: '${{BuildingDockerImage}}'
+    tag: '${{CF_BRANCH}}'
+    registry: dockerhub
+
+#  deploy-to-kubernetes:
+#    image: codefresh/cf-deploy-kubernetes:latest
+#    working-directory: ${{main_clone}}
+#    commands:
+#      - /cf-deploy-kubernetes deploy/deployment.yml.tmpl
+#    environment:
+#      - KUBERNETES_USER=${{KUBERNETES_USER}}
+#      - KUBERNETES_PASSWORD=${{KUBERNETES_PASSWORD}}
+#      - KUBERNETES_SERVER=${{KUBERNETES_SERVER}}
