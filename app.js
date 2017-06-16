@@ -20,9 +20,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
+
 app.use('/api/ping', require('./routes/ping'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/clusters', require('./routes/clusters'));
+app.use('/api/services', require('./routes/services'));
+app.use('/api/deployments', require('./routes/deployments'));
+app.use('/api/namespaces', require('./routes/namespaces'));
+
 app.use('/auth', require('./routes/auth'));
 
 // catch 404 and forward to error handler
