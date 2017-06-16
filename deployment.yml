@@ -21,3 +21,7 @@ spec:
         ports:
         - containerPort: 5555
           protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /api/ping
+            port: 5555

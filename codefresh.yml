@@ -27,5 +27,4 @@ steps:
     when:
       condition:
         all:
-          deploy_to_kubernetes: '"${{DEPLOY_KUBERNETES}}" == "true"'
           only_master: '${{CF_BRANCH}} == "master"'
