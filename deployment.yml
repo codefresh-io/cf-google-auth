@@ -5,18 +5,64 @@ metadata:
   name: cf-google-auth
   labels:
     service: cf-google-auth
+  annotations:
+    kubernetes.io/change-cause: "Release: ${{CF_REVISION}}"
 spec:
   replicas: 1
+  revisionHistoryLimit: 50
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: cf-google-auth
   template:
     metadata:
       annotations:
+        scheduler.alpha.kubernetes.io/affinity: >
+          {
+            "podAntiAffinity": {
+              "prefferedDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "labelSelector": {
+                    "matchExpressions": [
+                      {
+                        "key": "app",
+                        "operator": "In",
+                        "values": ["cf-google-auth"]
+                      }
+                    ]
+                  },
+                  "topologyKey": "kubernetes.io/hostname"
+                }
+              ]
+            },
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "nodeType",
+                        "operator": "In",
+                        "values": ["internal"]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
         forceRedeployUniqId: "{{CF_REVISION}}"
       labels:
-        service: cf-google-auth
+        app: cf-google-auth
+        app-version: v1
     spec:
+      imagePullSecrets:
+        - name: docker-registry
+      terminationGracePeriodSeconds: 40
       containers:
+      - name: cf-google-auth
       - image: codefresh/cf-google-auth:{{CF_BRANCH}}
-        name: cf-google-auth
         imagePullPolicy: Always
         ports:
         - containerPort: 5555
@@ -25,3 +71,8 @@ spec:
           httpGet:
             path: /api/ping
             port: 5555
+          periodSeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 5
+      restartPolicy: Always
