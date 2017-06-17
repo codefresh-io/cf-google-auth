@@ -1,3 +1,7 @@
+#others
+serviceAccount.yaml
+setup.sh
+
 # Logs
 logs
 *.log
